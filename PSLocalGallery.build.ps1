@@ -15,10 +15,10 @@ Task Testing Clean, Build, Test
 # Synopsis: Empty the _output and _testresults folders
 Task Clean {
     If (Test-Path -Path $OutputRoot) {
-        Get-ChildItem -Path $OutputRoot -Recurse | Remove-Item -Force
+        Get-ChildItem -Path $OutputRoot -Recurse | Remove-Item -Force -Recurse
     }
     If (Test-Path -Path $TestResultsRoot) {
-        Get-ChildItem -Path $TestResultsRoot -Recurse | Remove-Item -Force
+        Get-ChildItem -Path $TestResultsRoot -Recurse | Remove-Item -Force -Recurse
     }
 }
 
@@ -28,8 +28,10 @@ Task Build {
     New-Item -Path "$OutputRoot\$ModuleName" -ItemType Directory | Out-Null
 
     Write-Host "Compiling Classes"
-    Get-ChildItem -Path "$SourceRoot\functions\classes" -file | ForEach-Object {
-        $_ | Get-Content | Add-Content -Path $Dest_PSM1
+    If (Test-Path -Path "$SourceRoot\functions\classes") {
+        Get-ChildItem -Path "$SourceRoot\functions\classes" -file | ForEach-Object {
+            $_ | Get-Content | Add-Content -Path $Dest_PSM1
+        }
     }
 
     Write-Host "Compiling Private Functions"
