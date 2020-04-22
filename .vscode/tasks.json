@@ -1,0 +1,99 @@
+﻿{
+  "version": "2.0.0",
+  "windows": {
+    "options": {
+      "shell": {
+        "executable": "powershell.exe",
+        "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command" ]
+      }
+    }
+  },
+  "linux": {
+    "options": {
+      "shell": {
+        "executable": "/usr/bin/pwsh",
+        "args": [ "-NoProfile", "-Command" ]
+      }
+    }
+  },
+  "osx": {
+    "options": {
+      "shell": {
+        "executable": "/usr/local/bin/pwsh",
+        "args": [ "-NoProfile", "-Command" ]
+      }
+    }
+  },
+  "tasks": [
+    {
+      "label": ".",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "Invoke-Build -Task ."
+    },
+    {
+      "label": "Testing",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Testing",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Clean"
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Build"
+    },
+    {
+      "label": "Test",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Test"
+    },
+    {
+      "label": "Hash",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Hash"
+    },
+    {
+      "label": "Deploy",
+      "type": "shell",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "command": "Invoke-Build -Task Deploy"
+    },
+    {
+      "label": "?",
+      "type": "shell",
+      "problemMatcher": [],
+      "command": "Invoke-Build -Task ?"
+    }
+  ]
+}
