@@ -9,7 +9,7 @@ Function Get-PSLocalGallery {
     .INPUTS
         None
     .OUTPUTS
-        PSObject
+        PSLocalGalleryInformation
     #>
     [CmdletBinding()]
     Param()
@@ -23,11 +23,8 @@ Function Get-PSLocalGallery {
     } Else {
         $PackageCount = 0
     }
-    $Props = [ordered]@{
-        'Path' = $PSLocalGalleryPath
-        'Exists' = $Exists
-        'PackageCount' = $PackageCount
-        'IsRegistered' = $IsRegistered
-    }
-    Write-Output $(New-Object -TypeName PSObject -Property $Props)
+    Write-Output $(New-Object -TypeName PSLocalGalleryInformation -ArgumentList $PSLocalGalleryPath,
+                                                                        $Exists,
+                                                                        $PackageCount,
+                                                                        $IsRegistered)
 }
