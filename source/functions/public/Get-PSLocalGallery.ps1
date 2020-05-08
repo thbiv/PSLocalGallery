@@ -1,15 +1,6 @@
 Function Get-PSLocalGallery {
     <#
-    .SYNOPSIS
-        Retrieves information the local powershell repository named PSLocalGallery.
-    .DESCRIPTION
-        {{Long description}}
-    .EXAMPLE
-        PS C:\> Get-PSLocalGallery
-    .INPUTS
-        None
-    .OUTPUTS
-        PSLocalGalleryInformation
+    .EXTERNALHELP PSLocalGallery-help.xml
     #>
     [CmdletBinding()]
     Param()

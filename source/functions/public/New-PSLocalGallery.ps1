@@ -1,15 +1,6 @@
 Function New-PSLocalGallery {
     <#
-    .SYNOPSIS
-        Creates a local powershell repository named PSLocalGallery.
-    .DESCRIPTION
-        {{Long description}}
-    .EXAMPLE
-        PS C:\> New-PSLocalGallery
-    .INPUTS
-        None
-    .OUTPUTS
-        None
+    .EXTERNALHELP PSLocalGallery-help.xml
     #>
     [CmdletBinding(SupportsShouldProcess=$True)]
     Param()

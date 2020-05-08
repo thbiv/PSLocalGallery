@@ -1,17 +1,4 @@
 Function Test-PSLocalGalleryRegistration {
-    <#
-    .SYNOPSIS
-        Test if the PSLocalGallery is registered.
-    .DESCRIPTION
-        Test if the PSLocalGallery is registered.
-        Returns either $True or $False
-    .EXAMPLE
-        PS C:\> Test-PSLocalGalleryRegistration
-    .INPUTS
-        None
-    .OUTPUTS
-        Boolean
-    #>
     [CmdletBinding()]
     Param()
 
