@@ -1,0 +1,26 @@
+<config>
+  <deployment>
+    <repository>PSGallery</repository>
+    <onlinehelp>
+    </onlinehelp>
+    <filehash>C:\Users\thbarratt\Documents\FileHashData\PSLocalGallery</filehash>
+    <testresults>C:\Users\thbarratt\Documents\TestResults\PSLocalGallery</testresults>
+  </deployment>
+  <manifest>
+    <guid>3c4360d3-f08e-4662-ac6f-43e7950efc2f</guid>
+    <author>Thomas Barratt</author>
+    <moduleversion>1.0.7</moduleversion>
+    <description>Create and manage a Local Powershell gallery for testing</description>
+    <copyright>2020 Thomas Barratt</copyright>
+    <projecturi>https://github.com/thbiv/PSLocalGallery</projecturi>
+    <licenseuri>https://github.com/thbiv/PSLocalGallery/blob/master/LICENSE</licenseuri>
+    <releasenotes>https://github.com/thbiv/PSLocalGallery/blob/master/Release-Notes.md</releasenotes>
+    <tags>PSLocalGallery,gallery,powershell,Windows</tags>
+  </manifest>
+  <requiredmodules>
+    <module name="InvokeBuild" repository="PSGallery" />
+    <module name="Pester" repository="PSGallery" requiredversion="4.10.1" />
+    <module name="PSScriptAnalyzer" repository="PSGallery" />
+    <module name="platyPS" repository="PSGallery" />
+  </requiredmodules>
+</config>
