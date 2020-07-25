@@ -1,17 +1,21 @@
 Class PSLocalGalleryInformation {
+    [string]$Name
     [string]$Path
     [bool]$Exists
-    [int]$PackageCount
+    [int]$PackageTotal
+    [int]$PackageUnique
     [bool]$IsRegistered
 
-    PSLocalGalleryInformation ([string]$Path, [bool]$Exists, [int]$PackageCount, [bool]$IsRegistered) {
+    PSLocalGalleryInformation ([string]$Name, [string]$Path, [bool]$Exists, [int]$PackageTotal, [int]$PackageUnique, [bool]$IsRegistered) {
+        $this.Name = $Name
         $this.Path = $Path
         $this.Exists = $Exists
-        $this.PackageCount = $PackageCount
+        $this.PackageTotal = $PackageTotal
+        $this.PackageUnique = $PackageUnique
         $this.IsRegistered = $IsRegistered
     }
 
     [string]ToString() {
-        return ("[{0}][{1}][{2}][{3}]" -f $this.Path, $this.Exists, $this.PackageCount, $this.IsRegistered)
+        return ("{0}" -f $this.Name)
     }
 }
