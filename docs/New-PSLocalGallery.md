@@ -1,7 +1,7 @@
 ---
 external help file: PSLocalGallery-help.xml
 Module Name: PSLocalGallery
-online version:
+online version: https://github.com/thbiv/PSLocalGallery/blob/master/docs/New-PSLocalGallery.md
 schema: 2.0.0
 ---
 

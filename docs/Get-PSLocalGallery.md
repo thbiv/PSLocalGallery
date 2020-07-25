@@ -1,14 +1,14 @@
 ---
 external help file: PSLocalGallery-help.xml
 Module Name: PSLocalGallery
-online version:
+online version: https://github.com/thbiv/PSLocalGallery/blob/master/docs/Get-PSLocalGallery.md
 schema: 2.0.0
 ---
 
 # Get-PSLocalGallery
 
 ## SYNOPSIS
-Retrieves information the local powershell repository named PSLocalGallery.
+Retrieves information on the local powershell repository named PSLocalGallery.
 
 ## SYNTAX
 
