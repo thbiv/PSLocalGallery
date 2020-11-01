@@ -11,11 +11,15 @@ Function Get-PSLocalGallery {
     If ($Exists) {
         $Packages = Get-ChildItem -Path $PSLocalGalleryPath -File | Where-Object {$_.Extension -eq '.nupkg'}
         $PackageCount = $Packages.Count
-        $Names = $Packages.name
-        $Unique = $Names | ForEach-Object {
-            $_.split('.')[0]
-        } | Select-Object -Unique
-        $UniqueCount = $Unique.count
+        If ($PackageCount -ne 0) {
+            $Names = $Packages.name
+            $Unique = $Names | ForEach-Object {
+                $_.split('.')[0]
+            } | Select-Object -Unique
+            $UniqueCount = $Unique.count
+        } Else {
+            $UniqueCount = 0
+        }
     } Else {
         $PackageCount = 0
         $UniqueCount = 0
