@@ -56,7 +56,7 @@ Install-Module -Name PSLocalGallery
 
 ## Usage
 
-Using the PSLocalGallery is very simple at the moment. There are only commands with no parameters. To create and register the repository, use ```New-PSLocalGallery```. This command does require you to run with administrative access.
+Using the PSLocalGallery is very simple at the moment. There are only commands with no parameters. To create the repository, use ```New-PSLocalGallery```. This command does require you to run with administrative access.
 
 ```Powershell
 New-PSLocalGallery

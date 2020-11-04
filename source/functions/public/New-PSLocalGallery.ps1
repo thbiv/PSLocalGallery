@@ -18,19 +18,6 @@ Function New-PSLocalGallery {
         } Else {
             Write-Verbose "PSLocalGallery path already exists: $PSLocalGalleryPath"
         }
-        $RegParams = @{
-            Name = 'PSLocalGallery'
-            SourceLocation = $PSLocalGalleryPath
-            PublishLocation = $PSLocalGalleryPath
-            InstallationPolicy = 'Trusted'
-        }
-        Try {
-            If ($PSCmdlet.ShouldProcess("Registering PSLocalGallery")) {
-                Register-PSRepository @RegParams -ErrorAction Stop
-            }
-        } Catch {
-            Throw "$($_.Exception.Message)"
-        }
     } Else {
         Throw "This function requires Administrator permissions"
     }
