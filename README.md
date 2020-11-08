@@ -62,6 +62,13 @@ Using the PSLocalGallery is very simple at the moment. There are only commands w
 New-PSLocalGallery
 ```
 
+After creating the repository, you will need to register the repository before you can start using it. To easily register the 
+repository, use ```Register-PSLocalGallery```.
+
+```Powerhell
+Register-PSLocalGallery
+```
+
 To get some details on the repository, use ```Get-PSLocalGallery```.
 
 ```Powershell
