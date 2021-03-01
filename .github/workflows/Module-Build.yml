@@ -1,0 +1,117 @@
+name: Module-Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        run: |
+          [xml]$ModuleConfig = Get-Content Module.Config.xml
+          Write-Output ("ModuleVersion={0}" -f $($ModuleConfig.config.manifest.moduleversion)) | Add-Content -Path $env:GITHUB_ENV
+          Write-Output ("ReleaseName=v{0}" -f $($ModuleConfig.config.manifest.moduleversion)) | Add-Content -Path $env:GITHUB_ENV
+          Write-Host "ModuleVersion = $($ModuleConfig.config.manifest.moduleversion)"
+          $Username, $ProjectName = $env:GITHUB_REPOSITORY -split "/"
+          @( 
+            "GH_USERNAME={0}" -f $Username
+            "GH_PROJECTNAME={0}" -f $ProjectName
+          ) | Add-Content -Path $env:GITHUB_ENV
+          Write-Host "GH_USERNAME = $Username"
+          Write-Host "GH_PROJECTNAME = $ProjectName"
+        shell: pwsh
+
+      - name: Install Dependencies
+        run:  |
+          [xml]$ModuleConfig = Get-Content Module.Config.xml
+          $RequiredModules = $ModuleConfig.config.requiredmodules.module
+          ForEach ($Module in $RequiredModules) {
+            Write-Host "  Installing $($Module.name)..." -NoNewline
+            $Params = @{
+              Name = $($Module.name)
+              Scope = 'CurrentUser'
+              Force = $True
+              ErrorAction = 'Stop'
+            }
+            If ($Null -ne $Module.requiredversion) {$Params += @{RequiredVersion = $($Module.requiredversion)}}
+            Install-Module @Params
+            Write-Host "Done"
+          }
+        shell: pwsh
+       
+      - name: Build
+        run: |
+          [xml]$ModuleConfig = Get-Content Module.Config.xml
+          $RequiredModules = $ModuleConfig.config.requiredmodules.module
+          ForEach ($Module in $RequiredModules) {
+            Write-Host "  Importing $($Module.name)..." -NoNewline
+            $Params = @{
+              Name = $($Module.name)
+              ErrorAction = 'Stop'
+            }
+            If ($Null -ne $Module.requiredversion) {$Params += @{RequiredVersion = $($Module.requiredversion)}}
+            Import-Module @Params
+            Write-Host "Done"
+          }
+          Invoke-Build -Task Release
+        shell: pwsh
+
+      - name: Test Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: _testresults\Pester-Test-Results.html
+      
+      - name: File Hash Artifacts
+        if: "contains(github.event.head_commit.message, ':release:')"
+        uses: actions/upload-artifact@v2
+        with:
+          name: file-hash
+          path: _filehash\FileHash.xml
+
+      - name: Publish to PSGallery
+        if: "contains(github.event.head_commit.message, ':release:')"
+        run: |
+          $Params = @{
+            Path = ".\_output\$env:GH_PROJECTNAME"
+            NuGetApiKey = "$env:PSGALLERYAPIKEY"
+            ErrorAction = 'Stop'
+            Force = $True
+          }
+          Publish-Module @Params
+        shell: pwsh
+        env:
+          PSGALLERYAPIKEY: ${{ secrets.PSGALLERYAPIKEY }}
+
+      - name: Create-Release
+        id: create_release
+        if: "contains(github.event.head_commit.message, ':release:')"
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.ModuleVersion }}
+          release_name:  ${{ env.ReleaseName }}
+          body_path: _output\Release-Notes.txt
+          draft: false
+          prerelease: false
+
+      - name: Commit CHANGELOG.md and module manifest
+        if: "contains(github.event.head_commit.message, ':release:')"
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Action"
+          git add CHANGELOG.md
+          git commit -m "Released ${ModuleVersion}: updated CHANGELOG.md"
+      
+      - name: Push commit
+        if: "contains(github.event.head_commit.message, ':release:')"
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

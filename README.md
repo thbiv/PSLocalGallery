@@ -1,11 +1,12 @@
 # PSLocalGallery
 
+[GitHub Workflow Status](https://img.shields.io/github/workflow/status/thbiv/PSLocalGallery/Module-Build)
+![GitHub](https://img.shields.io/github/license/thbiv/PSLocalGallery)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/thbiv/PSLocalGallery)
+
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/PSLocalGallery)
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/PSLocalGallery)
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/p/PSLocalGallery)
-
-![GitHub](https://img.shields.io/github/license/thbiv/PSLocalGallery)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/thbiv/PSLocalGallery)
 
 ---
 

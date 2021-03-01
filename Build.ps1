@@ -1,20 +1,3 @@
-[CmdletBinding()]
-Param (
-    [Parameter(Mandatory=$False,Position=0)]
-    [ValidateSet('.','Testing')]
-    [string]$BuildTask = '.',
-
-    [Parameter(ParameterSetName='VersionChange')]
-    [switch]$BumpMajorVersion,
-
-    [Parameter(ParameterSetName='VersionChange')]
-    [switch]$BumpMinorVersion,
-
-    [Parameter(ParameterSetName='NoVersionChange')]
-    [switch]$NoVersionChange
-)
-
-Write-Host "Bootstrap Environment"
 Write-Host "Loading Config File"
 [xml]$ModuleConfig = Get-Content Module.Config.xml
 Write-Host "Nuget PackageProvider"
@@ -24,7 +7,6 @@ If (-not(Get-PackageProvider -Name Nuget)) {
     Write-Host "Done" -ForegroundColor Green
 } Else {Write-Host "  - Already installed" -ForegroundColor Green}
 
-Write-Host "Repositories"
 If (((Get-PSRepository -Name PSGallery).InstallationPolicy) -ne 'Trusted') {
     Write-Host "  - Setting PSGallery to Trusted..." -NoNewline
     Set-PSRepository -Name PSGallery -InstallationPolicy 'Trusted'
@@ -42,7 +24,6 @@ ForEach ($Module in $RequiredModules) {
             Force = $True
         }
         If ($Null -ne $Module.requiredversion) {$Params += @{RequiredVersion = $($Module.requiredversion)}}
-        If ($Null -ne $Module.repository) {$Params += @{Repository = $($Module.repository)}}
         Install-Module @Params
         Write-Host "Done" -ForegroundColor Green
     } Else {Write-Host "  - Already Installed" -ForegroundColor Green}
@@ -52,18 +33,4 @@ ForEach ($Module in $RequiredModules) {
         Write-Host "Done" -ForegroundColor Green
     } Else {Write-Host "  - Already Imported" -ForegroundColor Green}
 }
-
-$Params = @{
-    Task = $BuildTask
-    File = 'PSLocalGallery.build.ps1'
-}
-If ($NoVersionChange) {
-    $Params.Add('NoVersionChange',$True)
-}
-If ($BumpMajorVersion) {
-    $Params.Add('BumpMajorVersion',$True)
-}
-If ($BumpMinorVersion) {
-    $Params.Add('BumpMinorVersion',$True)
-}
-Invoke-Build @Params
+Invoke-Build
